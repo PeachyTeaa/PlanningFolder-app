@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Почта подтверждена — PlanningFolder</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    :root { --bg: #f4f4f6; --card: #ffffff; --text: #1d1d22; --muted: #6b6b76; --accent: #6c5ce7; --danger: #d64545; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #18181b; --card: #222226; --text: #ececf0; --muted: #9b9ba5; --accent: #9d8cff; --danger: #ff7b7b; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 16px;
+           background: var(--bg); color: var(--text);
+           font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    .card { max-width: 440px; width: 100%; background: var(--card); border-radius: 16px; padding: 32px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.08); text-align: center; }
+    .emoji { font-size: 48px; }
+    h1 { font-size: 22px; margin: 12px 0 8px; }
+    p { margin: 0 0 16px; color: var(--muted); }
+    a.btn { display: inline-block; padding: 10px 20px; border-radius: 10px; background: var(--accent);
+            color: #fff; text-decoration: none; font-weight: 600; }
+    .err h1 { color: var(--danger); }
+  </style>
+</head>
+<body>
+  <main class="card" id="ok">
+    <div class="emoji">✅</div>
+    <h1>Почта подтверждена</h1>
+    <p>Вернитесь в приложение PlanningFolder и войдите со своим email и паролем.</p>
+    <a class="btn" href="./">Открыть веб-версию</a>
+  </main>
+  <main class="card err" id="err" hidden>
+    <div class="emoji">⚠️</div>
+    <h1>Ссылка не сработала</h1>
+    <p id="err-text">Возможно, она устарела или уже использована. Попробуйте войти в приложении — если почта ещё не подтверждена, зарегистрируйтесь снова, чтобы получить новое письмо.</p>
+  </main>
+  <script>
+    // Supabase при ошибке кладёт её в ?error_description=… или #error_description=…
+    var q = new URLSearchParams(location.search + '&' + location.hash.replace(/^#/, ''));
+    if (q.get('error') || q.get('error_description')) {
+      document.getElementById('ok').hidden = true;
+      document.getElementById('err').hidden = false;
+    }
+  </script>
+</body>
+</html>
